@@ -1,0 +1,5 @@
+.scroll{
+    border: 1px solid white;
+    height: 55vh;
+    overflow-y: scroll;
+}

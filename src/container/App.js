@@ -1,14 +1,18 @@
 import React from 'react';
 import './App.css';
 import { robots } from '../robots';
-import CardList from '../component/cardlist';
+import Login from '../container/login/login';
+import SearchBox from '../component/searchbox/searchbox';
+import CardList from '../component/cardlist/cardlist';
+import Scroll from '../component/scroll/scroll';
 
 class App extends React.Component {
   constructor(){
     super();
     this.state = {
       searchField: '',
-      robots :robots
+      robots :robots,
+      login: true
     }
   }
 
@@ -16,22 +20,31 @@ class App extends React.Component {
     this.setState({ searchField: event.target.value})    
   }
 
+  login = () => {
+    this.setState({ login: false })
+  }
+
   render() {
-    // console.log(this.state.searchField)
     const filterRobots = this.state.robots.filter((item) => {
       return item.name.toLowerCase().includes(this.state.searchField.toLowerCase())
     })
     return (
       <div className="App">
-        <h1 className='light-green'>Robo Friends</h1>
-        <div>
-          <input type="text" 
-            placeholder='search robots' 
-            className='pa3 ba b--green bg-lightest-blue'
-            onChange={ this.onInputChange }
-          />
-        </div>
-        <CardList robots={ filterRobots }/>
+        <h1 className='light-green'>Disciples of Jesus</h1>
+
+        {
+          this.state.login ?
+          <Login  onLogin={ this.login }/>: null
+        }
+
+        <SearchBox onInputChange={ this.onInputChange }/>
+
+        {
+          !filterRobots.length ? <h1>no disciple found</h1> : null
+        }
+        <Scroll>
+          <CardList robots={ filterRobots }/>
+        </Scroll>
       </div>
     );
   }
